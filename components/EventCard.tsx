@@ -8,7 +8,7 @@ interface Props {
   date: string;
   time: string;
 }
-const EventCard = ({ title, image, slug, location, date, time }: Props) => {
+const EventCard = ({ title, image, location, date, time }: Props) => {
   return (
     <Link href={`events`} id="event-card">
       <Image
