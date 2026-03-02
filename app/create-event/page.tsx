@@ -88,15 +88,42 @@ export default function CreateEventPage() {
       fd.append("agenda", JSON.stringify(formData.agenda));
       if (formData.image) fd.append("image", formData.image);
 
-      console.log("[Submit] Posting to:", `${BASE_URL}/api/events`);
-      const res = await fetch(`${BASE_URL}/api/events`, {
+      console.log("[Submit] Form data prepared");
+      console.log("[Submit] BASE_URL:", BASE_URL);
+      console.log("[Submit] Image size:", formData.image?.size, "bytes");
+
+      // Use relative URL in production to avoid NEXT_PUBLIC_BASE_URL issues
+      const apiUrl = BASE_URL ? `${BASE_URL}/api/events` : "/api/events";
+      console.log("[Submit] Posting to:", apiUrl);
+
+      const res = await fetch(apiUrl, {
         method: "POST",
         body: fd,
       });
-      const json = await res.json();
+
+      console.log("[Submit] Response status:", res.status);
+      console.log("[Submit] Response ok:", res.ok);
+
+      // Try to get response text first to handle non-JSON errors
+      const text = await res.text();
+      console.log("[Submit] Response text:", text.substring(0, 500));
+
+      let json;
+      try {
+        json = JSON.parse(text);
+      } catch (parseErr) {
+        console.error("[Submit] Failed to parse JSON:", parseErr);
+        throw new Error(
+          `Server returned invalid response. Status: ${res.status}. Check server logs for details.`,
+        );
+      }
+
+      console.log("[Submit] Parsed response:", json);
 
       if (!res.ok) {
-        throw new Error(json.message ?? "Failed to create event");
+        throw new Error(
+          json.message ?? json.error ?? `Server error: ${res.status}`,
+        );
       }
 
       // Validate slug exists before redirect
@@ -104,7 +131,10 @@ export default function CreateEventPage() {
         throw new Error("Event created but slug is missing in response");
       }
 
-      console.log("[Submit] Redirecting to:", `/events/${json.event.slug}`);
+      console.log(
+        "[Submit] Success! Redirecting to:",
+        `/events/${json.event.slug}`,
+      );
 
       // Reset all state before redirect to prevent stale data on back navigation
       setFormData(INITIAL_FORM_DATA);
@@ -112,14 +142,26 @@ export default function CreateEventPage() {
       setErrors({});
       setResetKey((prev) => prev + 1);
 
+      // Invalidate all cached routes so homepage shows the new event immediately
+      router.refresh();
       router.push(`/events/${json.event.slug}`);
     } catch (err) {
-      console.error("[Submit] Error:", err);
-      setSubmitError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again.",
+      console.error("[Submit] Error caught:", err);
+      console.error(
+        "[Submit] Error type:",
+        err instanceof Error ? err.constructor.name : typeof err,
       );
+
+      let errorMessage = "Something went wrong. Please try again.";
+
+      if (err instanceof TypeError && err.message.includes("fetch")) {
+        errorMessage =
+          "Network error: Cannot reach server. Check your deployment URL and internet connection.";
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      setSubmitError(errorMessage);
       setIsSubmitting(false);
     }
   }, [formData, isSubmitting, router]);
