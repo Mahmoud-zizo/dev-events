@@ -1,21 +1,25 @@
 import ExploreBtn from "@/components/ExploreBtn";
-import EventCard from "@/components/EventCard";
-const Home = () => {
+import FeaturedEvents from "@/components/FeatureEvents";
+import { Suspense } from "react";
+
+const page = () => {
   return (
     <section>
       <h1 className="text-center">
-        The Hub for Every Dev <br /> Event You Mustn&apos;t Miss
+        The Hub For Every Dev <br /> Event You Can&apos;t Miss
       </h1>
       <p className="text-center mt-5">
-        Hackathons, Metups, and Conferences - All in One Place.
+        Hachathons Meetups , and Conferneces, All in One Place
       </p>
       <ExploreBtn />
-
-      <div className="mt-20 space-y-7">
-        <h3>Featured Events</h3>
-      </div>
+      <Suspense
+        fallback={<p className="text-center">Loading amazing events...</p>}
+      >
+        {" "}
+        <FeaturedEvents />
+      </Suspense>
     </section>
   );
 };
 
-export default Home;
+export default page;

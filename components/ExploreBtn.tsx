@@ -8,7 +8,7 @@ const ExploreBtn = () => {
       id="explore-btn"
       type="button"
     >
-      <Link href="#events">
+      <Link href="/events">
         Explore Events
         <Image src="icons/arrow-down.svg" alt="arrow" width={24} height={24} />
       </Link>
