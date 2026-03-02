@@ -13,7 +13,6 @@ import { validateStep } from "./_components/Validation";
 import {
   STEPS,
   STEP_SUBTITLES,
-  BASE_URL,
   INITIAL_FORM_DATA,
 } from "./_components/Constans";
 import { EventFormData, StepErrors } from "./_components/types";
@@ -89,11 +88,11 @@ export default function CreateEventPage() {
       if (formData.image) fd.append("image", formData.image);
 
       console.log("[Submit] Form data prepared");
-      console.log("[Submit] BASE_URL:", BASE_URL);
       console.log("[Submit] Image size:", formData.image?.size, "bytes");
 
-      // Use relative URL in production to avoid NEXT_PUBLIC_BASE_URL issues
-      const apiUrl = BASE_URL ? `${BASE_URL}/api/events` : "/api/events";
+      // CRITICAL: Always use relative URL to avoid CORS between Vercel preview/production deployments
+      // Preview deployments have different domains, so absolute URLs cause CORS errors
+      const apiUrl = "/api/events";
       console.log("[Submit] Posting to:", apiUrl);
 
       const res = await fetch(apiUrl, {

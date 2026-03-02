@@ -11,8 +11,6 @@ export const MODES = [
   { value: "hybrid", label: "Hybrid", icon: "◉" },
 ];
 
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "";
-
 export const INITIAL_FORM_DATA = {
   title: "",
   overview: "",
