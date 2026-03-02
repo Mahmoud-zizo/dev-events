@@ -83,7 +83,7 @@ export async function GET(
   }
 }
 
-// DELETE /api/events/[slug] - Delete event by slug
+// DELETE /api/events/[slug] - Deleting event by slug
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> },
