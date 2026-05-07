@@ -60,8 +60,8 @@ export default function EventsFilters() {
           type="text"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search events by title, organizer, or location..."
-          className="w-full bg-zinc-900/50 backdrop-blur-sm border border-zinc-700/50 rounded-lg px-4 py-3 pr-24
+          placeholder="Search events..."
+          className="w-full bg-zinc-900/50 backdrop-blur-sm border border-zinc-700/50 rounded-lg px-3 sm:px-4 py-3 pr-20 sm:pr-24
           text-sm text-zinc-100 font-mono placeholder:text-zinc-500
           focus:outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/20
           focus:bg-zinc-900/70 transition-all duration-200"
@@ -69,7 +69,7 @@ export default function EventsFilters() {
         <button
           suppressHydrationWarning
           type="submit"
-          className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5
+          className="absolute right-2 top-1/2 -translate-y-1/2 px-3 sm:px-4 py-1.5
           bg-emerald-600 hover:bg-emerald-500 rounded text-xs font-mono text-white
           transition-all duration-200 shadow-lg shadow-emerald-500/20"
         >
@@ -78,20 +78,20 @@ export default function EventsFilters() {
       </form>
 
       {/* Filters row */}
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
         <span className="text-xs font-mono tracking-widest text-zinc-400 uppercase">
           Filter:
         </span>
 
         {/* Mode filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {MODES.map((mode) => (
             <button
               suppressHydrationWarning
               key={mode}
               onClick={() => updateFilters("mode", mode)}
               disabled={isPending}
-              className={`px-3 py-1.5 rounded-md text-xs font-mono tracking-wider uppercase
+              className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-mono tracking-wider uppercase
                 transition-all duration-200 disabled:opacity-50 backdrop-blur-sm ${
                   currentMode === mode
                     ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
@@ -109,11 +109,12 @@ export default function EventsFilters() {
             suppressHydrationWarning
             onClick={clearFilters}
             disabled={isPending}
-            className="ml-auto px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-300
+            className="ml-auto px-2.5 sm:px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-300
             border border-zinc-700/50 hover:border-zinc-600/50 rounded-md transition-all duration-200
             disabled:opacity-50 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/50"
           >
-            ✕ Clear filters
+            <span className="hidden sm:inline">✕ Clear filters</span>
+            <span className="sm:hidden">✕ Clear</span>
           </button>
         )}
       </div>
@@ -128,13 +129,13 @@ export default function EventsFilters() {
             </span>
           )}
           {currentSearch && (
-            <span className="px-2 py-1 bg-zinc-800/50 border border-zinc-700/50 rounded text-zinc-300 backdrop-blur-sm">
-              Search: &quot;{currentSearch}&quot;
+            <span className="px-2 py-1 bg-zinc-800/50 border border-zinc-700/50 rounded text-zinc-300 backdrop-blur-sm truncate max-w-50">
+              &quot;{currentSearch}&quot;
             </span>
           )}
           {currentTag && (
             <span className="px-2 py-1 bg-zinc-800/50 border border-zinc-700/50 rounded text-zinc-300 backdrop-blur-sm">
-              Tag: #{currentTag}
+              #{currentTag}
             </span>
           )}
         </div>

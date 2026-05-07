@@ -24,7 +24,7 @@ async function EventsContent() {
   return (
     <>
       <EventsHeader totalEvents={events.length} />
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto  py-8">
         <EventsFilters />
         <EventsList events={events} />
       </div>

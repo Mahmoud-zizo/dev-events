@@ -67,12 +67,12 @@ export default function EventCard({ event }: EventCardProps) {
       </div>
 
       {/* Content */}
-      <div className="p-5 space-y-3 flex-1 flex flex-col">
+      <div className="p-4 sm:p-5 space-y-3 flex-1 flex flex-col">
         {/* Date + Time */}
-        <div className="flex items-center gap-3 text-xs font-mono text-zinc-400">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-zinc-400">
           <span className="flex items-center gap-1">
             <svg
-              className="w-3.5 h-3.5"
+              className="w-3.5 h-3.5 shrink-0"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -84,14 +84,14 @@ export default function EventCard({ event }: EventCardProps) {
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
-            {formattedDate}
+            <span className="truncate">{formattedDate}</span>
           </span>
-          <span className="text-zinc-700">•</span>
-          <span>{event.time}</span>
+          <span className="text-zinc-700 hidden sm:inline">•</span>
+          <span className="truncate">{event.time}</span>
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-semibold text-zinc-100 line-clamp-2 group-hover:text-emerald-400 transition-colors duration-200">
+        <h3 className="text-base sm:text-lg font-semibold text-zinc-100 line-clamp-2 group-hover:text-emerald-400 transition-colors duration-200">
           {event.title}
         </h3>
 
@@ -103,7 +103,7 @@ export default function EventCard({ event }: EventCardProps) {
         {/* Location */}
         <div className="flex items-center gap-1.5 text-xs font-mono text-zinc-400">
           <svg
-            className="w-3.5 h-3.5"
+            className="w-3.5 h-3.5 shrink-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
