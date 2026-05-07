@@ -3,7 +3,8 @@ import EventsList from "./_components/EventsList";
 import EventsHeader from "./_components/EventsHeader";
 import EventsFilters from "./_components/EventsFilters";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? "https://dev-events-tau-two.vercel.app";
 
 async function EventsContent() {
   let events = [];
