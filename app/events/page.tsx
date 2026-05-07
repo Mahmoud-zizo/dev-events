@@ -2,25 +2,10 @@ import { Suspense } from "react";
 import EventsList from "./_components/EventsList";
 import EventsHeader from "./_components/EventsHeader";
 import EventsFilters from "./_components/EventsFilters";
-
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ?? "https://dev-events-tau-two.vercel.app";
-
+import { getAllEvents } from "@/lib/actions/event.action";
 async function EventsContent() {
-  let events = [];
-
-  try {
-    const res = await fetch(`${BASE_URL}/api/events`, {
-      cache: "no-store",
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      events = data.events;
-    }
-  } catch (error) {
-    console.error("[Events] Error fetching events:", error);
-  }
+  // Direct DB call. No fetch, no BASE_URL, no build hangs.
+  const events = await getAllEvents();
 
   return (
     <>
